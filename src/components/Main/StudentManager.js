@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
 import student_data from '../../data/student_db.json';
+import TR from "./TR";
 
-function StudentManager(){
+function StudentManager() {
     const [students, setStudents] = useState([]);
     useEffect(() => {
         setStudents(student_data);
     }, [])
-    console.log(students);
+
+    const handleUpdateStudent = (std) => {
+        setStudents((prev) => {
+            let pos = prev.findIndex((s) => s.id == std.id);
+            prev[pos] = { ...std }
+            return prev;
+        })
+    }
     return (
         <div className="container">
             <table className="table caption-top">
@@ -25,19 +33,13 @@ function StudentManager(){
                 </thead>
                 <tbody>
                     {
-                        students.map((std) => (
-                            <tr key={std.id}>
-                                <td>{std.id}</td>
-                                <td>{std.student_name}</td>
-                                <td className="text-center">{std.java}</td>
-                                <td className="text-center">{std.fe}</td>
-                                <td className="text-center">{std.react}</td>
-                                <td className="text-center">
-                                    <i role={"button"} className="fa fa-edit me-2"></i>
-                                    <i role={"button"} className="fa fa-times text-danger fw-bolder"></i>
-                                </td>
-                            </tr>
-                        ))
+                        // students.map((std) => (
+                        //     <TR props={std} handleSave={handleUpdateStudent} />
+                        // ))
+                        students.map((std) => {
+                            console.log(std);
+                            return <TR props={std} handleSave={handleUpdateStudent} />
+                        })
                     }
                 </tbody>
             </table>
