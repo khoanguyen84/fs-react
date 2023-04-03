@@ -1,11 +1,29 @@
 import React, { useState, useEffect } from "react";
 import student_data from '../../data/student_db.json';
+import TableRow from './TableRow';
 
-function StudentManager(){
+function StudentManager() {
     const [students, setStudents] = useState([]);
     useEffect(() => {
         setStudents(student_data);
     }, [])
+
+    const handleSaveStudent = (student) => {
+        setStudents((prev) => {
+            let position = prev.findIndex((std) => std.id == student.id);
+            prev[position] = { ...student };
+            return prev;
+        })
+    }
+
+    const handleRemoveStudent = (student) => {
+        let confirmed = window.confirm(`Are you sure to remove student: ${student.student_name}?`);
+        if(confirmed){
+            setStudents((prev) => {
+                return prev.filter(item => item.id != student.id);
+            })
+        }
+    }
     console.log(students);
     return (
         <div className="container">
@@ -26,17 +44,10 @@ function StudentManager(){
                 <tbody>
                     {
                         students.map((std) => (
-                            <tr key={std.id}>
-                                <td>{std.id}</td>
-                                <td>{std.student_name}</td>
-                                <td className="text-center">{std.java}</td>
-                                <td className="text-center">{std.fe}</td>
-                                <td className="text-center">{std.react}</td>
-                                <td className="text-center">
-                                    <i role={"button"} className="fa fa-edit me-2"></i>
-                                    <i role={"button"} className="fa fa-times text-danger fw-bolder"></i>
-                                </td>
-                            </tr>
+                            <TableRow key={std.id} props={std}
+                                handleSaveStudent={handleSaveStudent}
+                                handleRemoveStudent={handleRemoveStudent}
+                            />
                         ))
                     }
                 </tbody>
