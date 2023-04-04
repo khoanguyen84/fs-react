@@ -1,9 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import StudentService from "../../services/studentService";
 
 function TableRow({ props, handleSaveStudent, handleRemoveStudent }) {
 
     const [selected, setSelected] = useState(0);
-    const [student, setStudent] = useState(props)
+    const [student, setStudent] = useState({})
+
+    useEffect(() => {
+        try {
+            async function getData(){
+                let studentRes = await StudentService.getStudent(props.id)
+                setStudent(studentRes.data)
+            }
+            getData();
+        } catch (error) {
+            
+        }
+    }, [selected])
     const handleInputValue = (e) => {
         setStudent({
             ...student,

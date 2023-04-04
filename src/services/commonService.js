@@ -1,0 +1,1 @@
+export const STUDENT_API = "https://642b7e28208dfe2547192369.mockapi.io/students";

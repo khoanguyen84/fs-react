@@ -1,30 +1,61 @@
 import React, { useState, useEffect } from "react";
-import student_data from '../../data/student_db.json';
 import TableRow from './TableRow';
+import studentService from '../../services/studentService.js';
+import StudentService from "../../services/studentService.js";
+import Spinner from "../Spinner/Spinner";
 
 function StudentManager() {
-    const [students, setStudents] = useState([]);
+    const [state, setState] = useState({
+        loading: false,
+        students: []
+    });
     useEffect(() => {
-        setStudents(student_data);
+        try {
+            async function getData() {
+                setState({ ...state, loading: true })
+                let studentRes = await studentService.getStudents();
+                setState({
+                    ...state,
+                    students: studentRes.data,
+                    loading: false
+                });
+            }
+            getData()
+        } catch (error) {
+
+        }
     }, [])
 
-    const handleSaveStudent = (student) => {
-        setStudents((prev) => {
-            let position = prev.findIndex((std) => std.id == student.id);
-            prev[position] = { ...student };
-            return prev;
-        })
-    }
-
-    const handleRemoveStudent = (student) => {
-        let confirmed = window.confirm(`Are you sure to remove student: ${student.student_name}?`);
-        if(confirmed){
-            setStudents((prev) => {
-                return prev.filter(item => item.id != student.id);
-            })
+    const handleSaveStudent = async (student) => {
+        setState({ ...state, loading: true });
+        let updateRes = await studentService.updateStudent(student);
+        if (updateRes.data) {
+            console.log(updateRes.data);
+            let studentRes = await studentService.getStudents();
+            setState({
+                ...state,
+                students: studentRes.data,
+                loading: false
+            });
         }
     }
-    console.log(students);
+
+    const handleRemoveStudent = async (student) => {
+        let confirmed = window.confirm(`Are you sure to remove student: ${student.student_name}?`);
+        if (confirmed) {
+            setState({ ...state, loading: true });
+            let DeleteRes = await StudentService.removeStudent(student.id);
+            if (DeleteRes.data) {
+                let studentRes = await studentService.getStudents();
+                setState({
+                    ...state,
+                    students: studentRes.data,
+                    loading: false
+                })
+            }
+        }
+    }
+    const { students, loading } = state;
     return (
         <div className="container">
             <table className="table caption-top">
@@ -43,12 +74,13 @@ function StudentManager() {
                 </thead>
                 <tbody>
                     {
-                        students.map((std) => (
-                            <TableRow key={std.id} props={std}
-                                handleSaveStudent={handleSaveStudent}
-                                handleRemoveStudent={handleRemoveStudent}
-                            />
-                        ))
+                        loading ? <Spinner /> :
+                            students.map((std) => (
+                                <TableRow key={std.id} props={std}
+                                    handleSaveStudent={handleSaveStudent}
+                                    handleRemoveStudent={handleRemoveStudent}
+                                />
+                            ))
                     }
                 </tbody>
             </table>

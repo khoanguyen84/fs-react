@@ -7,3 +7,11 @@
   background-color: "#e0e0e0";
   color: black;
 }
+
+.bg-spinner{
+  background-color: rgba(240, 248, 255, 0.5);
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
