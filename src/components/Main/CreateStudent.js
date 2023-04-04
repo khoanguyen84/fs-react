@@ -16,7 +16,7 @@ function CreateStudent() {
         e.preventDefault();
         let createRes = await StudentService.createStudent(student);
         if(createRes.data){
-            navigate("/student-manager", { replace: true })
+            navigate("/fs-react/student-manager", { replace: true })
         }
     }
     return (
@@ -65,7 +65,7 @@ function CreateStudent() {
                             <i className="fa fa-add me-2"></i>
                             Create
                         </button>
-                        <Link to={"/student-manager"} className="btn btn-dark">
+                        <Link to={"/fs-react/student-manager"} className="btn btn-dark">
                             <i className="fa fa-times me-2"></i>
                             Cancel
                         </Link>

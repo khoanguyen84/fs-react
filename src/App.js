@@ -15,10 +15,10 @@ function App() {
           </div>
           <div className='col-md-9 rounded border border-success'>
             <Routes>
-              <Route path='/' element={<StudentManager />}></Route>
-              <Route path='/student-manager' element={<StudentManager />}></Route>
-              <Route path='/create-student' element={<CreateStudent />}></Route>
-              <Route path='/search-tab' element={<SearchTab />}></Route>
+              <Route path='/fs-react' element={<StudentManager />}></Route>
+              <Route path='/fs-react/student-manager' element={<StudentManager />}></Route>
+              <Route path='/fs-react/create-student' element={<CreateStudent />}></Route>
+              <Route path='/fs-react/search-tab' element={<SearchTab />}></Route>
             </Routes>
           </div>
         </div>
