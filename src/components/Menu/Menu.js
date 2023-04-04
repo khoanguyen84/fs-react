@@ -1,25 +1,23 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const menus = [
     {
         name: "Student Manager",
-        path: "/student-manager"
+        path: "/fs-react/student-manager"
     },
     {
         name: "Create Student",
-        path: "/create-student"
+        path: "/fs-react/create-student"
     },
     {
         name: "Search Tab",
-        path: "/search-tab"
+        path: "/fs-react/search-tab"
     }
 ]
 function Menu(){
-    const [selected, setSelected] = useState("/student-manager");
-
-    const location = useLocation();
+    const [selected, setSelected] = useState("Student Manager");
     return (
         <div className="container d-flex justify-content-center align-items-center flex-column">
             <h3>Menu Item</h3>
@@ -28,8 +26,8 @@ function Menu(){
                     <Link 
                         to={menu.path} 
                         key={menu.name}
-                        className={`btn btn-outline-primary w-100 my-1 ${menu.path == selected ? 'active' : ''}`}
-                        onClick = {() => setSelected(location.pathname)}
+                        className={`btn btn-outline-primary w-100 my-1 ${menu.name == selected ? 'active' : ''}`}
+                        onClick = {() => setSelected(menu.name)}
                     >{menu.name}</Link>
                 ))
             }
