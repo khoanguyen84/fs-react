@@ -1,33 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { menus } from '../../data/menu_data.js';
+import { MenuContext } from './../../App';
 
+function Menu() {
+    const { menuSelected, handleChangeMenu } = useContext(MenuContext)
 
-const menus = [
-    {
-        name: "Student Manager",
-        path: "/fs-react/student-manager"
-    },
-    {
-        name: "Create Student",
-        path: "/fs-react/create-student"
-    },
-    {
-        name: "Search Tab",
-        path: "/fs-react/search-tab"
-    }
-]
-function Menu(){
-    const [selected, setSelected] = useState("Student Manager");
     return (
         <div className="container d-flex justify-content-center align-items-center flex-column">
             <h3>Menu Item</h3>
             {
                 menus.map((menu) => (
-                    <Link 
-                        to={menu.path} 
+                    <Link
+                        to={menu.path}
                         key={menu.name}
-                        className={`btn btn-outline-primary w-100 my-1 ${menu.name == selected ? 'active' : ''}`}
-                        onClick = {() => setSelected(menu.name)}
+                        className={`btn btn-outline-primary w-100 my-1 ${menu.name == menuSelected ? 'active' : ''}`}
+                        onClick={() => handleChangeMenu(menu.name)}
                     >{menu.name}</Link>
                 ))
             }
