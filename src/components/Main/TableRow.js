@@ -7,16 +7,8 @@ function TableRow({ props, handleSaveStudent, handleRemoveStudent }) {
     const [student, setStudent] = useState({})
 
     useEffect(() => {
-        try {
-            async function getData(){
-                let studentRes = await StudentService.getStudent(props.id)
-                setStudent(studentRes.data)
-            }
-            getData();
-        } catch (error) {
-            
-        }
-    }, [selected])
+        setStudent(props)
+    }, [])
     const handleInputValue = (e) => {
         setStudent({
             ...student,
@@ -24,6 +16,18 @@ function TableRow({ props, handleSaveStudent, handleRemoveStudent }) {
         })
     }
 
+    const handleEdit = (stdId) => {
+        try {
+            async function getData(){
+                let studentRes = await StudentService.getStudent(props.id)
+                setStudent(studentRes.data)
+            }
+            getData();
+            setSelected(stdId);
+        } catch (error) {
+            
+        }
+    }
     const handleUpdate = () => {
         handleSaveStudent(student);
         setSelected(0)
@@ -85,7 +89,7 @@ function TableRow({ props, handleSaveStudent, handleRemoveStudent }) {
                         ></i>
                     ) : (
                         <i role={"button"} className="fa fa-edit me-2"
-                            onClick={() => setSelected(id)}
+                            onClick={() => handleEdit(id)}
                         ></i>
                     )
                 }
